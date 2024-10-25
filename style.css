@@ -1,0 +1,39 @@
+div {
+    background-color: rgb(158, 87, 87);
+    color: white;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+p{
+    margin: 0;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+#encabezado{
+    height: 12%;
+    background-color: aquamarine;
+}
+
+#cuerpo{
+    height: 80%;
+    background-color: burlywood;
+}
+
+#footer{
+    height: 10%;
+    background-color: coral;
+}
+
+.bloque{
+    margin: 10px;
+    height: 100px;
+    width: 100px;
+    border: 3px solid black;
+    display: inline-block;
+    font-size: 25px;
+}
+
+#bloque1{
+    background-color: red;
+}
