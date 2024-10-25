@@ -1,0 +1,1 @@
+Crea una interfaz Animal con métodos hacerSonido() y mover(). Implementa clases como Perro, Gato y Pajaro. Luego, crea una fábrica que devuelva instancias de estos animales.

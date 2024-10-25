@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+      "lib": ["ES6", "DOM"],
+      "target": "ES6",
+      "module": "commonjs",
+      "strict": true,
+      "esModuleInterop": true
+    }
+  }
+  
