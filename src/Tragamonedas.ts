@@ -1,9 +1,26 @@
 import { IApostar } from "../Interfaces/IApostar";
 
 export abstract class Tragamonedas implements IApostar{
-    private valorMinimoApuesta:number;
+    protected valorMinimoApuesta:number;
+    protected simbolos:string[];
+    protected simboloMultiplicador:Map <string, number>;
+    protected ganancia:number;
+    protected apuesta:number=0;
 
-    public abstract apostar(apuesta:number):string;
+    getValorMinimoApuesta():number{
+        return this.valorMinimoApuesta
+    }
+
+    public apostar(apuesta:number):string{
+        if(apuesta<this.valorMinimoApuesta){
+            return `El valor minimo de apuesta de este juego es ${this.valorMinimoApuesta}, por favor apuesta más.`
+        }else{
+            this.apuesta=apuesta;
+            return `Usted ha apostado $${apuesta} en la tragamoneda.`
+        }
+    }
+
+    abstract calcularResultado():void;
 
     public getReglas():string{
         return `
@@ -11,16 +28,16 @@ export abstract class Tragamonedas implements IApostar{
         
         1. Introduce tu apuesta.
         2. Los rodillos girarán y se detendrán en símbolos aleatorios.
-        3. Si obtienes una combinación ganadora en la línea de pago, recibirás un premio basado en la apuesta y el valor de los símbolos.
+        3. Si obtienes una combinación ganadora en la línea de pago, recibirás un premio basado en la apuesta.
         
         === Combinaciones Ganadoras ===
         
-        - Tres símbolos iguales en la línea de pago principal (por ejemplo: 3 cerezas) otorgan un premio.
-        - Combinaciones específicas de símbolos (por ejemplo: 3 números "7") pueden otorgar premios mayores.
+        - Tres símbolos iguales(por ejemplo: 3 corazones) otorgan un premio x3.
+        - Dos símbolos iguales(por ejemplo: 2 corazones) otorgan un premio x2.
         
         === Premios ===
         
-        - El premio depende del tipo de símbolo y la apuesta realizada.
+        - El premio depende de la apuesta realizada.
         
         ¡Buena suerte!`
     }
