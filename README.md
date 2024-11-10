@@ -37,3 +37,8 @@ Este proyecto es un sistema de casino implementado en TypeScript. Está estructu
 │
 ├── package.json            # Configuración de npm, incluyendo dependencias del proyecto
 └── .gitignore              # Archivos y carpetas que no se deben incluir en el repositorio
+
+## Diagrama UML
+
+![Diagrama UML del proyecto](./Docs/UML.png)
+
