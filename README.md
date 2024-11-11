@@ -40,7 +40,8 @@ Este proyecto es un sistema de casino implementado en TypeScript. Está estructu
 
 ## Diagrama UML
 
-![Diagrama UML](Docs/umlDiagrama.png)
+![Diagrama UML](Docs/UML%204.0.png)
+
 
 
 
