@@ -1,13 +1,14 @@
+import { IApostar } from "../Interfaces/IApostar";
 import { Tragamonedas } from "./Tragamonedas";
 
-export class TragamonedasSimple extends Tragamonedas{
-    protected simbolos:string[];
+export class TragamonedasSimple extends Tragamonedas implements IApostar{
     protected simboloMultiplicador:Map <string, number>;
+    
+
+    protected rodillos: string[] = []; //4
 
     constructor() {
         super();
-        this.valorMinimoApuesta=10;
-        this.simbolos=["♦","♥","♣","♠","☀️","🌙","⭐"]
         this.simboloMultiplicador = new Map([
             ["♦", 3],
             ["♥", 2],
@@ -17,36 +18,35 @@ export class TragamonedasSimple extends Tragamonedas{
             ["🌙", 1.2],
             ["⭐", 1.1],
         ]);
-        this.ganancia=0;
     }
-    
 
-    public calcularResultado():{ganancia:number,apuesta:number,resultado:string}{
-        if(this.apuesta<this.valorMinimoApuesta || this.apuesta == null){
-            console.log(`Debes apostar ${this.valorMinimoApuesta} o más para poder jugar`)
-            return {ganancia:this.ganancia, apuesta:0,resultado:""};
+    public girarRodillos(): void {
+        const simbolos = Array.from(this.simboloMultiplicador.keys());
+        for (let i = 0; i < 3; i++) {
+            this.rodillos.push(simbolos[Math.floor(Math.random() * simbolos.length)]);
         }
-        let slot1 = this.simbolos[Math.floor(Math.random() * this.simbolos.length)];
-        let slot2 = this.simbolos[Math.floor(Math.random() * this.simbolos.length)];
-        let slot3 = this.simbolos[Math.floor(Math.random() * this.simbolos.length)];
+    }    
 
-        this.ganancia=0;
+    public calcularResultado(apuesta:number): {apuesta:number,ganaUsuario:boolean}{
+        if(apuesta<0){
+            throw new Error("Se le pide que apueste un número mayor a 0(cero)");
+            return {apuesta:0,ganaUsuario:false}
+        }
 
-        if (slot1 === slot2 && slot2 === slot3) {
-            let multiplicador = this.simboloMultiplicador.get(slot1) || 1;
-            this.ganancia = this.apuesta * 3 * multiplicador;
+        if (this.rodillos[0] === this.rodillos[1] && this.rodillos[1] === this.rodillos[2]) {
+            let multiplicador = this.simboloMultiplicador.get(this.rodillos[0]) || 1;
+            apuesta = apuesta * 3 * multiplicador;
+            return{apuesta:apuesta,ganaUsuario:true}
+        } else if (this.rodillos[0] === this.rodillos[1] || this.rodillos[1] === this.rodillos[2] || this.rodillos[0] === this.rodillos[2]) {
 
-            return {ganancia:this.ganancia, apuesta:this.apuesta,resultado:`Resultado: ${slot1} | ${slot2} | ${slot3}. Usted ha sacado un x3x${multiplicador} y ha ganado $${this.ganancia}`};
-        } else if (slot1 === slot2 || slot2 === slot3 || slot1 === slot3) {
-
-            let simboloGanador = slot1 === slot2 ? slot1 : slot3;
+            let simboloGanador = this.rodillos[0] === this.rodillos[1] ? this.rodillos[0] : this.rodillos[2];
             let multiplicador = this.simboloMultiplicador.get(simboloGanador) || 1;
 
-            this.ganancia = this.apuesta * 2 * multiplicador;
-
-            return {ganancia:this.ganancia, apuesta:this.apuesta,resultado:`Resultado: ${slot1} | ${slot2} | ${slot3}.Usted ha sacado un x2x${multiplicador} y ha ganado $${this.ganancia}`};
-        } else {
-            return {ganancia:this.ganancia, apuesta:this.apuesta,resultado:`Resultado: ${slot1} | ${slot2} | ${slot3}Usted ha sacado un x0 y ha perdido $${this.apuesta}`};
+            apuesta = apuesta * 2 * multiplicador;
+            return{apuesta:apuesta,ganaUsuario:true}
+        } else{
+            return{apuesta:apuesta,ganaUsuario:false}
         }
     }
+    
 }

@@ -1,27 +1,12 @@
-import { IApostar } from "../Interfaces/IApostar";
-
-export abstract class Tragamonedas implements IApostar{
-    protected valorMinimoApuesta:number;
-    protected simbolos:string[];
+// import {Juegos} from "./Juegos.ts";
+export class Tragamonedas {
+    protected rodillos: string[] = [];
     protected simboloMultiplicador:Map <string, number>;
-    protected ganancia:number;
-    protected apuesta:number=0;
 
-    getValorMinimoApuesta():number{
-        return this.valorMinimoApuesta
+    public mostrarResultado(): string {
+        return `| ${this.rodillos.join(" | ")} |`;
     }
-
-    public apostar(apuesta:number):string{
-        if(apuesta<this.valorMinimoApuesta){
-            return `El valor minimo de apuesta de este juego es ${this.valorMinimoApuesta}, por favor apuesta más.`
-        }else{
-            this.apuesta=apuesta;
-            return `Usted ha apostado $${apuesta} en la tragamoneda.`
-        }
-    }
-
-    abstract calcularResultado():void;
-
+    
     public getReglas():string{
         return `
         === Reglas de las Tragaperras ===

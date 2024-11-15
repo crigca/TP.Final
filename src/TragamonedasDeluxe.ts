@@ -1,14 +1,13 @@
+import { IApostar } from "../Interfaces/IApostar";
 import { Tragamonedas } from "./Tragamonedas";
 
-export class TragamonedasDeluxe extends Tragamonedas {
-    protected simbolos: string[];
+export class TragamonedasDeluxe extends Tragamonedas implements IApostar {
     protected simboloMultiplicador: Map<string, number>;
-    private estatusRequerido: boolean;
+        
+    protected rodillos: string[] = []; //4
 
     constructor() {
         super();
-        this.valorMinimoApuesta = 10000;
-        this.simbolos = ["💎", "👑", "🏆", "👜", "🍾", "🚗", "🕶️"];
         this.simboloMultiplicador = new Map([
             ["💎", 3],
             ["👑", 2.5],
@@ -18,47 +17,53 @@ export class TragamonedasDeluxe extends Tragamonedas {
             ["🚗", 1.4],
             ["🕶️", 1.2],
         ]);
-        this.estatusRequerido = false;
-        this.ganancia=0;
     }
 
-    public setEstatusRequerido(estatus: boolean): void {
-        this.estatusRequerido = estatus;
+    public girarRodillos(): void {
+        const simbolos = Array.from(this.simboloMultiplicador.keys());
+
+        for (let i = 0; i < 4; i++) {
+            this.rodillos.push(simbolos[Math.floor(Math.random() * simbolos.length)]);
+        }
     }
 
-    public calcularResultado(): { ganancia: number, apuesta: number,resultado:string } {
-        if (!this.estatusRequerido) {
-            console.log("No puedes jugar porque el estatus requerido no está habilitado.");
-            return { ganancia: 0, apuesta:0,resultado:"" };
+    public calcularResultado(apuesta:number): {apuesta:number,ganaUsuario:boolean} {
+        if (apuesta<0){
+            throw new Error("Se le pide que apueste un número mayor a 0(cero)");
+            return {apuesta:0,ganaUsuario:false}
+        }else{
+
+            let simboloGanador = this.rodillos[0];
+            let maxCoincidencias = 1;
+    
+            for (let i = 0; i < this.rodillos.length; i++) {
+                let coincidencias = 1;
+                for (let j = i + 1; j < this.rodillos.length; j++) {
+                    if (this.rodillos[i] === this.rodillos[j]) {
+                        coincidencias++;
+                    }
+                }
+                if (coincidencias > maxCoincidencias) {
+                    maxCoincidencias = coincidencias;
+                    simboloGanador = this.rodillos[i];
+                }
+            }
+    
+            // Aplica el multiplicador según la cantidad de coincidencias
+            const multiplicador = this.simboloMultiplicador.get(simboloGanador) || 1;
+    
+            if (maxCoincidencias === 4) {
+                apuesta = apuesta * 4 * multiplicador;
+                return{apuesta:apuesta,ganaUsuario:true}
+            } else if (maxCoincidencias === 3) {
+                apuesta = apuesta * 3 * multiplicador;
+                return{apuesta:apuesta,ganaUsuario:true}
+            } else if (maxCoincidencias === 2) {
+                apuesta = apuesta * 2 * multiplicador;
+                return{apuesta:apuesta,ganaUsuario:true}
+            }else{
+                return{apuesta:apuesta,ganaUsuario:false}
+            }
         }
-
-        if (this.apuesta < this.valorMinimoApuesta || this.apuesta == null) {
-            console.log(`Debes apostar ${this.valorMinimoApuesta} o más para poder jugar`);
-            return { ganancia: 0, apuesta: 0,resultado:"" };
-        }
-
-        let slot1 = this.simbolos[Math.floor(Math.random() * this.simbolos.length)];
-        let slot2 = this.simbolos[Math.floor(Math.random() * this.simbolos.length)];
-        let slot3 = this.simbolos[Math.floor(Math.random() * this.simbolos.length)];
-
-        this.ganancia=0;
-
-        if (slot1 === slot2 && slot2 === slot3) {
-            let multiplicador = this.simboloMultiplicador.get(slot1) || 1;
-            this.ganancia = this.apuesta * 3 * multiplicador;
-            return {ganancia:this.ganancia, apuesta:this.apuesta,resultado:`Resultado: ${slot1} | ${slot2} | ${slot3}. Usted ha sacado un x3x${multiplicador} y ha ganado $${this.ganancia}`};
-        } else if (slot1 === slot2 || slot2 === slot3 || slot1 === slot3) {
-            let simboloGanador = slot1 === slot2 ? slot1 : slot3;
-            let multiplicador = this.simboloMultiplicador.get(simboloGanador) || 1;
-            this.ganancia = this.apuesta * 2 * multiplicador;
-            return {ganancia:this.ganancia, apuesta:this.apuesta,resultado:`Resultado: ${slot1} | ${slot2} | ${slot3}. Usted ha sacado un x2x${multiplicador} y ha ganado $${this.ganancia}`};
-        } else {
-            return {ganancia:this.ganancia, apuesta:this.apuesta,resultado:`Resultado: ${slot1} | ${slot2} | ${slot3}. Usted ha sacado un x0 y ha perdido $${this.apuesta}`};
-        }
-
-        // Reiniciar ganancia a 0 después de haberla retornado
-        const retornoGanancia = this.ganancia; // Guarda la ganancia para retornar
-        this.ganancia = 0; // Reiniciar la ganancia
-        return { ganancia: retornoGanancia, apuesta: this.apuesta,resultado:"" };
     }
 }
