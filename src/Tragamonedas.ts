@@ -1,4 +1,3 @@
-// import {Juegos} from "./Juegos.ts";
 export class Tragamonedas {
     protected rodillos: string[] = [];
     protected simboloMultiplicador:Map <string, number>;

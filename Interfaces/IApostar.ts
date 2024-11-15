@@ -1,3 +1,3 @@
 export interface IApostar {
-    calcularResultado():{apuesta:number,ganaUsuario:boolean};
+    calcularResultado(apuesta:number):{apuesta:number,ganaUsuario:boolean};
 }
