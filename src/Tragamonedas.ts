@@ -1,26 +1,28 @@
-import { IApostar } from "../Interfaces/IApostar";
+// import {Juegos} from "./Juegos.ts";
+export class Tragamonedas {
+    protected rodillos: string[] = [];
+    protected simboloMultiplicador:Map <string, number>;
 
-export abstract class Tragamonedas implements IApostar{
-    private valorMinimoApuesta:number;
-
-    public abstract apostar(apuesta:number):string;
-
+    public mostrarResultado(): string {
+        return `| ${this.rodillos.join(" | ")} |`;
+    }
+    
     public getReglas():string{
         return `
         === Reglas de las Tragaperras ===
         
         1. Introduce tu apuesta.
         2. Los rodillos girarán y se detendrán en símbolos aleatorios.
-        3. Si obtienes una combinación ganadora en la línea de pago, recibirás un premio basado en la apuesta y el valor de los símbolos.
+        3. Si obtienes una combinación ganadora en la línea de pago, recibirás un premio basado en la apuesta.
         
         === Combinaciones Ganadoras ===
         
-        - Tres símbolos iguales en la línea de pago principal (por ejemplo: 3 cerezas) otorgan un premio.
-        - Combinaciones específicas de símbolos (por ejemplo: 3 números "7") pueden otorgar premios mayores.
+        - Tres símbolos iguales(por ejemplo: 3 corazones) otorgan un premio x3.
+        - Dos símbolos iguales(por ejemplo: 2 corazones) otorgan un premio x2.
         
         === Premios ===
         
-        - El premio depende del tipo de símbolo y la apuesta realizada.
+        - El premio depende de la apuesta realizada.
         
         ¡Buena suerte!`
     }
