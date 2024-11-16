@@ -1,42 +1,40 @@
-# TP Final - Casino
+# Final Project - Casino
 
-Este proyecto es un sistema de casino implementado en TypeScript. Está estructurado en distintas carpetas que agrupan la lógica del juego, las interfaces, los modelos y los datos necesarios para su funcionamiento. Este README detalla la estructura del proyecto y los pasos necesarios para configurar el entorno de desarrollo.
+This project is a casino system implemented in TypeScript. It is structured into different folders that group the game logic, interfaces, models, and data necessary for its operation. This README details the project structure and the steps needed to set up the development environment.
 
-## Estructura del proyecto
+## Project Structure
 
 ```plaintext
 .
-├── Data/                    # Carpeta que contiene los archivos de datos como el saldo y usuarios registrados
-│   ├── saldo.txt            # Archivo de texto donde se guarda el saldo del casino
-│   
+├── Data/                    # Folder containing data files such as balance and registered users
+│   ├── balance.txt          # Text file where the casino balance is stored
 │
-├── Docs/                    # Carpeta para documentación del proyecto
-│   └── UML.png              # Diagrama UML que representa el diseño del proyecto
+├── Docs/                    # Folder for project documentation
+│   └── UML.png              # UML diagram representing the project design
 │
-├── Interfaces/              # Carpeta con las interfaces del proyecto
-│   └── IApostar.ts          # Interfaz para juegos de apuesta
+├── Interfaces/              # Folder containing project interfaces
+│   └── IBet.ts              # Interface for betting games
 │
-├── src/                      # Carpeta principal del código fuente
-│   ├── Models/               # Contiene las clases principales y modelos del sistema
-│   │   ├── Casino.ts         # Clase principal que gestiona el casino
-│   │   ├── GestorJuegos.ts   # Clase para gestionar los juegos
-│   │   └── Saldo.ts          # Clase para gestionar el saldo
-│   │   └── Juegos.ts         # Clase abstracta que define la estructura base de los juegos de casino
+├── src/                      # Main source code folder
+│   ├── Models/               # Contains the main classes and system models
+│   │   ├── Casino.ts         # Main class that manages the casino
+│   │   ├── GameManager.ts    # Class for managing games
+│   │   ├── Balance.ts        # Class for managing balance
+│   │   └── Games.ts          # Abstract class defining the base structure for casino games
 │   │
-│   ├── Juegos/                    # Contiene las clases específicas de los juegos
-│   │   ├── Blackjack.ts           # Implementación del juego Blackjack
-│   │   ├── Sicbo.ts               # Implementación del juego Sicbo
-│   │   ├── Tragamonedas.ts        # Clase para los juegos de tragamonedas
-│   │   ├── TragamonedasDeluxe.ts  # Implementación del juego Tragamonedas Deluxe
-│   │   └── TragamonedasSimple.ts  # Implementación del juego Tragamonedas Simple
+│   ├── Games/                     # Contains specific game classes
+│   │   ├── Blackjack.ts           # Implementation of the Blackjack game
+│   │   ├── Sicbo.ts               # Implementation of the Sicbo game
+│   │   ├── SlotMachine.ts         # Slot machine game class
+│   │   ├── SlotMachineDeluxe.ts   # Implementation of the Deluxe Slot Machine game
+│   │   └── SlotMachineSimple.ts   # Implementation of the Simple Slot Machine game
 │
-├── README.md               # Archivo con la descripción del proyecto y las instrucciones de uso
-├── index.ts                # Archivo principal para ejecutar el proyecto
-├── menu.ts                 # Menú de opciones para interactuar con el casino desde la consola
+├── README.md               # File with the project description and usage instructions
+├── index.ts                # Main file to run the project
+├── menu.ts                 # Console menu for interacting with the casino
 │
-├── package.json            # Configuración de npm, incluyendo dependencias del proyecto
-└── .gitignore              # Archivos y carpetas que no se deben incluir en el repositorio
-
+├── package.json            # npm configuration file, including project dependencies
+└── .gitignore              # Files and folders to be excluded from the repository
 
 
 
