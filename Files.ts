@@ -3,10 +3,11 @@ const fs = require('fs');
 //console.log(fs);
 
 /**
- *  private fileName:string; 
- *  private fnFile(sOp:string,s?:string):string 
- *  public load():void
- *  public save(pdata:string):void
+ *  - fileName:string;
+ * 
+ *  - fnFile(sOp:string,s?:string):string 
+ *  + load():void
+ *  + save(pdata:string):void
  */
 
 export class Files {
