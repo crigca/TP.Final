@@ -35,7 +35,6 @@ export class SimpleSlotMachine extends SlotMachine implements IBet {
     public calculateResult(bet: number): { bet: number, userWins: boolean } {
         // Check if the bet amount is valid
         if (bet < 0) {
-            throw new Error("You must place a bet greater than 0 (zero).");
             return { bet: 0, userWins: false };
         }
 
