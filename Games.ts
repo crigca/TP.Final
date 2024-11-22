@@ -1,12 +1,12 @@
-export abstract class Plays {
+export abstract class Games {
   public rules:string;
-  public saldo:number;
+  public balance:number;
   public msgResult:string;
   public name:string;
   
-  constructor(prule:string, psaldo:number, pmsg:string){
+  constructor(prule:string, pbalance:number, pmsg:string){
     this.rules=prule;
-    this.saldo=psaldo;
+    this.balance=pbalance;
     this.msgResult=pmsg;
     this.name=this.constructor.name.toLowerCase();
 

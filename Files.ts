@@ -1,6 +1,14 @@
 //const { writeFile } = require('fs/promises');
 const fs = require('fs');
 //console.log(fs);
+
+/**
+ *  private fileName:string; 
+ *  private fnFile(sOp:string,s?:string):string 
+ *  public load():void
+ *  public save(pdata:string):void
+ */
+
 export class Files {
 
   private fileName:string;
@@ -18,7 +26,7 @@ export class Files {
  * 
  * @return ERR,OK,NOEX,NOP string
 */
-public  fnFile(sOp:string,s?:string):string{
+private  fnFile(sOp:string,s?:string):string{
   let res:string="";
   switch (sOp){
     case 'read':
@@ -92,7 +100,7 @@ public  fnFile(sOp:string,s?:string):string{
 
 
 /**
- * This method is resposible for to load file.
+ * This method is resposible for load file.
  * @param void.
  * 
  * @return void
@@ -119,5 +127,34 @@ public load():void{
   }
 }
 
+/**
+ * This method is resposible for save data to file.
+ * @param pdata :string of JSon.
+ * 
+ * @return void
+*/
+public save(pdata:string):void{
+  let s:string = fs.fnFile("access");
+  /**
+   * Search backups
+   * case exist: check format, if not then create new:
+   * case don't exist: create a new file;
+   */
+  if(s.localeCompare("NOEX")!=0 && s.localeCompare("NOP")!=0){
+    s = fs.fnFile("read");
+    if(s.length>0){
+      /* unvoid file */
+      let j=JSON.parse( s.toString() );
+      if (j[0]==undefined){
+        /* out format */
+        fs.fnFile("create");
+      }
+    }else
+      fs.fnFile("create");
+  }else{
+    fs.fnFile("create");
+  }
+  fs.fnFile('update',pdata);
+}
 
 }

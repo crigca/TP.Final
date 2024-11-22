@@ -1,12 +1,12 @@
 /**
  * Imports
 */
-import { Games}                 from "./src/Models/Games";
-import { Blackjack }            from "./src/Games/Blackjack";
-import { Sicbo }                from "./src/Games/Sicbo";
+import { Games }               from "./src/Models/Games";
+import { Blackjack }           from "./src/Games/Blackjack";
+import { Sicbo }               from "./src/Games/Sicbo";
 import { SlotMachine }         from "./src/Games/SlotMachine";
-import { SlotMachineSimple }    from "./src/Games/SlotMachineSimple";
-import { SlotMachinesDeluxe }  from "./src/Games/SlotMachinesDeluxe";
+import { SimpleSlotMachine }   from "./src/Games/SimpleSlotMachine";
+import { DeluxeSlotMachine }   from "./src/Games/DeluxeSlotMachine";
 
 
 export abstract class GamesManager {
@@ -16,8 +16,8 @@ export abstract class GamesManager {
     this.games.push(new Blackjack());
     this.games.push(new Sicbo());
     this.games.push(new SlotMachine());
-    this.games.push(new SlotMachineSimple());
-    this.games.push(new SlotMachinesDeluxe());
+    this.games.push(new SimpleSlotMachine());
+    this.games.push(new DeluxeSlotMachine());
   }
     
   public getGame(pname:string):Games|undefined{
