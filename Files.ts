@@ -1,0 +1,123 @@
+//const { writeFile } = require('fs/promises');
+const fs = require('fs');
+//console.log(fs);
+export class Files {
+
+  private fileName:string;
+
+  constructor(s:string){
+
+    this.fileName=s;
+    
+  };
+
+/**
+ * This method is resposible for to do C.R.U.D. over files.
+ * Is called the method of parse data.
+ * @param sOp Is an string with the name of operation to do.
+ * 
+ * @return ERR,OK,NOEX,NOP string
+*/
+public  fnFile(sOp:string,s?:string):string{
+  let res:string="";
+  switch (sOp){
+    case 'read':
+      //console.log(sOp);
+      res="ERR";
+      //let data = fs.readFileSync(this.fileName,'utf8');
+      try {
+        let data = fs.readFileSync(this.fileName, 'utf8');
+        res=data;
+      } catch (err) {
+        console.error(err);
+        res="ERR";
+      }
+      return res;
+      break;
+    case 'create':
+      //console.log(sOp);
+      res="OK"
+      fs.writeFile(this.fileName,"",function (err:string) {
+        if (err){
+          res= "ERR";
+          throw err;
+        } }
+      );
+      return res;
+      break;
+    case 'update':
+      //console.log(sOp);
+      res="OK"
+      fs.writeFile(this.fileName,s,function (err:string) {
+        if (err){
+          res= "ERR";
+          throw err;
+        } }
+      );
+      return res;
+      break;
+    case 'delete':
+      console.log(sOp);
+      break;
+    case 'rename':
+      console.log(sOp);
+      break;
+    case 'status':
+      //console.log(sOp);
+      fs.stat(this.fileName,(err:string, stats:any) => {
+        if (err) {
+          console.error(err);
+        }
+        stats.isFile(); // true
+        stats.size; // 1024000 //= 1MB
+      });
+      break;    
+    case 'access':
+      //console.log(sOp);
+      res="EX";
+      fs.access(this.fileName,fs.constants.F_OK,(err:string) => {
+        if (err) {
+          console.error(err);
+          res="NOEX";
+        }
+      });
+      return res;
+      break;  
+    default:
+      console.log('NOP');
+    break;
+  }
+  return"NOP";
+}
+
+
+/**
+ * This method is resposible for to load file.
+ * @param void.
+ * 
+ * @return void
+*/
+public load():void{
+  let s:string = fs.fnFile("access");
+  /**
+   * Search backups
+   * case exist: check format, if not then create new:
+   * case don't exist: create a new file;
+   */
+  if(s.localeCompare("NOEX")!=0 && s.localeCompare("NOP")!=0){
+    s = fs.fnFile("read");
+    if(s.length>0){
+      /* unvoid file */
+      let j=JSON.parse( s.toString() );
+      if (j[0]==undefined)
+        /* out format */
+        fs.fnFile("create");
+    }else
+      fs.fnFile("create");
+  }else{
+    fs.fnFile("create");
+  }
+}
+
+
+}
