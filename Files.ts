@@ -13,11 +13,13 @@ const fs = require('fs');
 export class Files {
 
   private fileName:string;
+  /** path format: "dir_1/dir_2" */
   private filePath:string;
 
   constructor(pname:string,ppath:string){
     this.fileName=pname;
-    this.filePath=ppath;
+    /** path format: "dir_1/dir_2" */
+    this.filePath="./"+ppath;
   };
 
 /**
@@ -35,7 +37,7 @@ private  fnFile(sOp:string,s?:string):string{
       res="ERR";
       //let data = fs.readFileSync(this.fileName,'utf8');
       try {
-        let data = fs.readFileSync(this.filePath+this.fileName, 'utf8');
+        let data = fs.readFileSync(this.filePath+"/"+this.fileName, 'utf8');
         res=data;
       } catch (err) {
         console.error(err);
@@ -46,7 +48,7 @@ private  fnFile(sOp:string,s?:string):string{
     case 'create':
       //console.log(sOp);
       res="OK"
-      fs.writeFile(this.filePath+this.fileName,"",function (err:string) {
+      fs.writeFile(this.filePath+"/"+this.fileName,"",function (err:string) {
         if (err){
           res= "ERR";
           throw err;
@@ -57,7 +59,7 @@ private  fnFile(sOp:string,s?:string):string{
     case 'update':
       //console.log(sOp);
       res="OK"
-      fs.writeFile(this.filePath+this.fileName,s,function (err:string) {
+      fs.writeFile(this.filePath+"/"+this.fileName,s,function (err:string) {
         if (err){
           res= "ERR";
           throw err;
@@ -73,7 +75,7 @@ private  fnFile(sOp:string,s?:string):string{
       break;
     case 'status':
       //console.log(sOp);
-      fs.stat(this.filePath+this.fileName,(err:string, stats:any) => {
+      fs.stat(this.filePath+"/"+this.fileName,(err:string, stats:any) => {
         if (err) {
           console.error(err);
         }
@@ -84,7 +86,7 @@ private  fnFile(sOp:string,s?:string):string{
     case 'access':
       //console.log(sOp);
       res="EX";
-      fs.access(this.filePath+this.fileName,fs.constants.F_OK,(err:string) => {
+      fs.access(this.filePath+"/"+this.fileName,fs.constants.F_OK,(err:string) => {
         if (err) {
           console.error(err);
           res="NOEX";
