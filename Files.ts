@@ -4,7 +4,7 @@ const fs = require('fs');
 
 /**
  *  - fileName:string;
- * 
+ *  - filePath:string;
  *  - fnFile(sOp:string,s?:string):string 
  *  + load():void
  *  + save(pdata:string):void
