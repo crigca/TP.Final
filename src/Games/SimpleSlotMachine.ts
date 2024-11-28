@@ -25,7 +25,11 @@ export class SimpleSlotMachine extends SlotMachine implements IBet {
 
     // Method to spin the reels and assign random symbols to them
     public spinReels(): void {
+        //reset reels
+        this.reels=[];
+        //get avaible symbols
         const symbols = Array.from(this.symbolMultiplier.keys());
+        //push 3 simbols
         for (let i = 0; i < 3; i++) {
             this.reels.push(symbols[Math.floor(Math.random() * symbols.length)]);
         }
