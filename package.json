@@ -1,16 +1,33 @@
 {
+<<<<<<< HEAD
   "name": "tp.final",
   "version": "1.0.0",
   "description": "Trabajo Practico Final (Casino)",
+=======
+  "name": "tpfinal",
+  "version": "1.0.0",
+>>>>>>> c4a73b96897bab70aec3b265423ca870728f4ba7
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+<<<<<<< HEAD
   "author": "",
   "license": "ISC",
   "dependencies": {
     "fs": "^0.0.1-security",
     "readline-sync": "^1.4.10",
     "ts-node": "^10.9.2"
+=======
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "fs": "^0.0.1-security",
+    "readline-sync": "^1.4.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+>>>>>>> c4a73b96897bab70aec3b265423ca870728f4ba7
   }
 }
