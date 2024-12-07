@@ -1,106 +1,98 @@
 import { IBet } from "../../Interfaces/IBet";
+import { Games } from "../Models/Games";
 
-// Sicbo class that implements the IBet interface. Represents the Sicbo game with different types of bets.
-export class Sicbo implements IBet {
-    private die1: number;
-    private die2: number;
-    private die3: number;
-    private gameBalance: number;
-    private rules: string;
-    private resultMessage: string;
-    private currentBet: number;
-    private currentDiceSum: number;
-    private currentPrediction: number; // For the sum prediction
-    private betType: string; // For the type of bet (Small, Big, Triple, Exact)
+// Sicbo class extends Games and implements the IBet interface
+export class Sicbo extends Games implements IBet {
+    private die1: number; // Value of the first die
+    private die2: number; // Value of the second die
+    private die3: number; // Value of the third die
+    private currentDiceSum: number; // Sum of the dice rolled in the current game
+    private currentPrediction: number; // User's prediction for an "Exact" bet
+    private betType: string; // Type of the bet (e.g., "Small", "Big", "Triple", "Exact")
 
+    // Constructor initializes the Sicbo rules and sets the default values
     constructor() {
-        this.die1 = 0;
-        this.die2 = 0;
-        this.die3 = 0;
-        this.gameBalance = 0;
-        this.resultMessage = "";
-        this.currentBet = 0;
-        this.currentDiceSum = 0;
-        this.currentPrediction = 0;
-        this.betType = ""; // Initialize the bet type
-
-        // Rules updated with the new win multipliers
-        this.rules = `SicBo Rules:
+        super(
+            `SicBo Rules:
         - Small Bet: You win if the sum of the three dice is between 3 and 10, excluding Triples. Payout: 1.2 times the bet.
         - Big Bet: You win if the sum of the three dice is between 11 and 18, excluding Triples. Payout: 1.2 times the bet.
         - Triple Bet: You win if all three dice show the same number (e.g., 3-3-3). Payout: 30 times the bet.
-        - Exact Prediction: You win if you guess the exact sum of the three dice. Payout: 5 times the bet.
-        
-        --- Note: each type of bet has an associated risk and payout.`;
+        - Exact Prediction: You win if you guess the exact sum of the three dice. Payout: 5 times the bet.`,
+            0, // Initial game balance
+            "" // Initial result message
+        );
+        this.die1 = 0;
+        this.die2 = 0;
+        this.die3 = 0;
+        this.currentDiceSum = 0;
+        this.currentPrediction = 0;
+        this.betType = "";
     }
 
-    // Method to roll three dice and calculate the sum of their results.
+    // Returns the values of the three dice rolled
+    public getDiceValues(): number[] {
+        return [this.die1, this.die2, this.die3];
+    }
+
+    // Simulates rolling the dice and calculates their sum
     private rollDice(): number {
-        this.die1 = Math.floor(Math.random() * 6) + 1;
-        this.die2 = Math.floor(Math.random() * 6) + 1;
-        this.die3 = Math.floor(Math.random() * 6) + 1;
-        return this.die1 + this.die2 + this.die3;
+        this.die1 = Math.floor(Math.random() * 6) + 1; // Random value between 1 and 6 for die1
+        this.die2 = Math.floor(Math.random() * 6) + 1; // Random value between 1 and 6 for die2
+        this.die3 = Math.floor(Math.random() * 6) + 1; // Random value between 1 and 6 for die3
+        return this.die1 + this.die2 + this.die3; // Sum of all three dice
     }
 
-    // Method to set the type of bet and the user's prediction if necessary.
+    // Sets the bet type and prediction (if required for an "Exact" bet)
     setBet(betType: string, prediction?: number): void {
         const validTypes = ["Small", "Big", "Triple", "Exact"];
         if (!validTypes.includes(betType)) {
-            throw new Error("Invalid bet type. Must be 'Small', 'Big', 'Triple', or 'Exact'.");
+            throw new Error("Invalid bet type. Choose 'Small', 'Big', 'Triple', or 'Exact'.");
         }
-
         this.betType = betType;
 
-        // Check if the bet is of type Exact and requires a valid prediction
         if (betType === "Exact" && prediction !== undefined) {
             if (prediction < 3 || prediction > 18) {
-                throw new Error("The prediction for an Exact bet must be between 3 and 18.");
+                throw new Error("Exact bet prediction must be between 3 and 18.");
             }
             this.currentPrediction = prediction;
-        } else if (betType === "Exact" && prediction === undefined) {
-            throw new Error("You must provide a prediction for an Exact bet.");
         }
     }
 
-    // Method to calculate the result of the bet and determine if the user wins or loses.
+    // Calculates the result of the bet and determines if the user wins
     calculateResult(bet: number): { bet: number, userWins: boolean } {
         if (bet <= 0) {
-            throw new Error("The bet must be greater than zero.");
+            throw new Error("Bet must be greater than zero.");
         }
 
-        this.currentBet = bet;
-        this.currentDiceSum = this.rollDice();
+        this.currentDiceSum = this.rollDice(); // Roll the dice and calculate the sum
+        let userWins = false; // Flag for user win condition
 
-        let userWins = false;
-
-        // Check the winning conditions based on the bet type
+        // Check conditions based on bet type
         if (this.betType === "Small" && this.currentDiceSum >= 3 && this.currentDiceSum <= 10 && !this.isTriple()) {
-            userWins = true;
-            this.gameBalance -= bet * 1.2; // Wins 1.2 times the bet
+            userWins = true; // Win condition for Small Bet
         } else if (this.betType === "Big" && this.currentDiceSum >= 11 && this.currentDiceSum <= 18 && !this.isTriple()) {
-            userWins = true;
-            this.gameBalance -= bet * 1.2; // Wins 1.2 times the bet
+            userWins = true; // Win condition for Big Bet
         } else if (this.betType === "Triple" && this.isTriple()) {
-            userWins = true;
-            this.gameBalance -= bet * 30; // Wins 30 times the bet
+            userWins = true; // Win condition for Triple Bet
         } else if (this.betType === "Exact" && this.currentDiceSum === this.currentPrediction) {
-            userWins = true;
-            this.gameBalance -= bet * 5; // Wins 5 times the bet
-        } else {
-            this.gameBalance += bet; // The house keeps the bet
+            userWins = true; // Win condition for Exact Bet
         }
 
-        this.resultMessage = this.showResult();
-        return { bet, userWins };
+        return { bet, userWins }; // Return the result of the bet
     }
 
-    // Method to check if all three dice have the same value.
+    // Checks if all three dice have the same value (Triple)
     private isTriple(): boolean {
         return this.die1 === this.die2 && this.die2 === this.die3;
     }
 
-    // Method to display a message with the game result.
-    showResult(): string {
-        return this.resultMessage;
+    // Returns the rules of the Sicbo game
+    public getRules(): string {
+        return this.rules;
+    }
+
+    // Displays the result message for the current game
+    public showResult(): string {
+        return this.msgResult;
     }
 }
