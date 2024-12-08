@@ -155,19 +155,19 @@ export class Blackjack extends Games implements IBet {
                     console.log("Better luck next time. You have lost.")
                     readlineSync.question("Press enter to skip...")
                     console.log(this.showResult());
-                    return { userWins: false, bet: 0 }; // Salir si el jugador pierde
+                    return { userWins: false, bet: 0 }; // Exit if the player loses
                 }
             } else if (option === 2) {
                 console.log("You chose to stay.");
-                break; // Salimos del bucle del jugador
+                break; // We exit the player loop
             } else {
                 console.log("Invalid option. Try again.");
             }
         }
 
         console.log("\n=== Dealer's Turn ===");
-        const result = this.calculateResult(); // Calcula el resultado al final
-        console.log(this.showResult()); // Siempre imprime el resultado final
+        const result = this.calculateResult(); // Calculate the result at the end
+        console.log(this.showResult()); // Always print the final result
         return result;
     }
 
