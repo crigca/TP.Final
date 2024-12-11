@@ -41,8 +41,18 @@ export function showMenu(casino: Casino): void {
                     console.log(`${index + 1}. ${game}`);
                 });
 
-                const gameOption = readlineSync.questionInt("Select a game to play: ");
-                const selectedGame = casino.getGame(availableGames[gameOption - 1]);
+                const gameOption = readlineSync.question("Select a game to play: "); //not a questionInt because selectedGame cant be a number
+                // Validate input: ensure it is a valid number and within the valid range
+                const gameIndex = parseInt(gameOption);
+                if (isNaN(gameIndex) || 
+                    gameIndex < 1 || 
+                    gameIndex > availableGames.length) 
+                {
+                    console.log("Invalid selection. Please choose a valid game number.");
+                    readlineSync.question("Press Enter to continue...");
+                    break;
+                }
+                const selectedGame = casino.getGame(availableGames[gameIndex - 1]);
 
                 if (selectedGame) {
                     console.log(`\nLaunching ${selectedGame.getName()}...`);
