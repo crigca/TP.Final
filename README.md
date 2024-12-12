@@ -5,10 +5,10 @@ This project is a casino system implemented in TypeScript. It is structured into
 ## Project Structure
 
 ```plaintext
-.
-├── Docs/                    # Carpeta para documentación
-│   ├── UML_Diagram.png      # Imagen del diagrama UML
-│   └── additional_notes.md  # Cualquier otro documento relevante
+├── Docs/                     # Folder for documentation
+│   ├── UML_Diagram.png       # UML diagram image
+│   └── functional_tests.pdf  # Document containing functional test details
+|
 |
 ├── Data/                    # Folder containing data files such as balance
 │   ├── balance.txt          # Text file where the user's balance is stored

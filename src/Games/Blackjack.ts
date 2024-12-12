@@ -66,20 +66,20 @@ export class Blackjack extends Games implements IBet {
             this.houseTotal > 21 ||
             (this.playerTotal <= 21 && this.playerTotal > this.houseTotal)
         ) {
-            this.balance += this.bet * 2; // Win 2x the bet
+            this.balance = this.bet * 2; // Win 2x the bet
             userWins = true;
             this.showCards();
             this.msgResult = "Congratulations, you won!";
             console.log(this.msgResult)
             readlineSync.question("Press enter to skip...")
         } else if (this.playerTotal === this.houseTotal) {
-            this.balance += this.bet; // Refund the bet}
+            this.balance = this.bet; // Refund the bet}
             this.showCards();
             this.msgResult = "It's a tie."
             console.log(this.msgResult)
             readlineSync.question("Press enter to skip...")
         } else {
-            this.balance -= this.bet; // Lose the bet
+            this.balance = -this.bet; // Lose the bet
             this.showCards();
             this.msgResult = "Better luck next time.";
             console.log(this.msgResult)
