@@ -71,9 +71,6 @@ export function showSicboMenu(casino: Casino): void {
                         throw new Error("Insufficient balance to place this bet.");
                     }
 
-                    // Deduct the bet amount from the user's balance
-                    casino.updateUserBalance(-betAmount);
-
                     // Calculate the result
                     const result = sicboGame.calculateResult(betAmount);
 
@@ -85,12 +82,13 @@ export function showSicboMenu(casino: Casino): void {
 
                     // Update balances based on the result
                     if (result.userWins) {
-                        console.log(`You win! Your winnings: $${result.bet}`);
-                        casino.updateUserBalance(result.bet);
-                        casino.updateCasinoBalance(-result.bet);
+                        console.log(`You win! Your winnings: $${betAmount}`);
+                        casino.updateUserBalance(betAmount);
+                        casino.updateCasinoBalance(-betAmount);
                     } else {
                         console.log(`You lose. You lost: $${betAmount}`);
                         casino.updateCasinoBalance(betAmount);
+                        casino.updateUserBalance(-betAmount);
                     }
 
                     // Show updated balances

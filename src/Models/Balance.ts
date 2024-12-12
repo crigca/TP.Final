@@ -62,7 +62,6 @@ export class Balance {
         const balanceData = `User Balance: $${this.userBalance}\nCasino Balance: $${this.casinoBalance}`;
         fs.writeFileSync(balanceFile, balanceData, "utf-8");
 
-        console.log(`Balances saved`);
     }
 
     // Check if the game is over (if either balance reaches zero)

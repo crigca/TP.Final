@@ -32,17 +32,13 @@ export class Casino {
 
     // Set Balance instance - Load from file if it exists, otherwise use default values
     public setBalance(balance: Balance): void {
-        this.balance = balance;
+        this.balance = new Balance(); 
         const balanceFile = "Data/balance.txt";
         if (fs.existsSync(balanceFile)) {
-            // If the balance.txt file exists, load the values from the file
-            this.balance = Balance.fromFile(); // Load balance from the file
-        } else {
-            // If it does not exist, use default values
-            this.balance = new Balance(); // Default values: $50,000 for the user and $1,000,000 for the casino
+        console.log("the balance.txt exist");
         }
     }
-
+    
     // Get the user's balance
     public getUserBalance(): number {
         this.ensureBalanceInitialized();
